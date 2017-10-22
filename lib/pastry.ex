@@ -49,8 +49,7 @@ defmodule Pastry do
     unlimitedLoop(numNodes,randomStartNode,reqNo+1, numrequests, averageENUM)
   end
   def unlimitedLoop(numNodes,randomStartNode,reqNo, numrequests, averageENUM) when reqNo>=numrequests do
-    IO.puts ("Average number of hops to complete the number of requests is :")
-    IO.inspect Enum.sum(averageENUM)/Enum.count(averageENUM)
+    IO.puts ("Average number of hops to complete the number of requests is : "<>Float.to_string(Enum.sum(averageENUM)/Enum.count(averageENUM)))
   end
 
   #convert pid to its md5 hash
