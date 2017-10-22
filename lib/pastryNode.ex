@@ -50,8 +50,9 @@ defmodule Pastry.PastryNode do
     #deliver(msg,key):
     # called by Pastry when a message is received and the local node’s nodeId is numerically closest to key, among all live nodes.
     def deliver(msg, key) do
-        IO.puts("Total number of hops required for delivery :"<>Integer.to_string(Map.get(msg,:hops)))
-        IO.puts("Message string :"<>Map.get(msg,:msg))
+        #IO.puts("Total number of hops required for delivery :"<>Integer.to_string(Map.get(msg,:hops)))
+        #IO.puts("Message string :"<>Map.get(msg,:msg))
+        Map.get(msg,:hops)
     end
 
     #route(msg,key):

@@ -1,7 +1,7 @@
 defmodule Pastry do
   
   def main(args) do
-    IO.puts "Welcome to Pastry"
+    #IO.puts "Welcome to Pastry"
     numNodes=String.to_integer(Enum.at(args,0))
     numRequests=String.to_integer(Enum.at(args,1))
     #IO.puts(numNodes)
@@ -11,14 +11,10 @@ defmodule Pastry do
     nodeList=createNodes(numNodes, numRequests, [], 1)
     
     #populating leaves set for initial nodes
-    randomStartNode=getRandomStartNode(nodeList)
+    n=getRandomStartNode(nodeList)
     
     #Pastry.PastryNode.printNodes(randomStartNode)
-    Pastry.PastryNode.route("hi",pidMD5hash(:rand.uniform(numNodes*2)),randomStartNode)
-
-    unlimitedLoop
-
-    
+    unlimitedLoop(numNodes,n,0,numRequests,[])    
   end
 
   
@@ -48,8 +44,13 @@ defmodule Pastry do
   end
 
   #calling an unlimited loop to keep main thread alive
-  def unlimitedLoop() do
-    :timer.sleep(:infinity)
+  def unlimitedLoop(numNodes,randomStartNode,reqNo, numrequests, averageENUM) when reqNo<numrequests do
+    averageENUM= [Pastry.PastryNode.route("payload",pidMD5hash(:rand.uniform(numNodes*2)),randomStartNode)|averageENUM]
+    unlimitedLoop(numNodes,randomStartNode,reqNo+1, numrequests, averageENUM)
+  end
+  def unlimitedLoop(numNodes,randomStartNode,reqNo, numrequests, averageENUM) when reqNo>=numrequests do
+    IO.puts ("Average number of hops to complete the number of requests is :")
+    IO.inspect Enum.sum(averageENUM)/Enum.count(averageENUM)
   end
 
   #convert pid to its md5 hash
